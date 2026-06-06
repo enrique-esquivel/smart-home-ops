@@ -25,7 +25,7 @@ services:
     container_name: frigate
     privileged: true
     restart: unless-stopped
-    image: ghcr.io/blakeblackshear/frigate:stable-tensorrt
+    image: ghcr.io/blakeblackshear/frigate:0.12.1-tensorrt
     runtime: nvidia # GPU Maxwell
     shm_size: "128mb" # Video buffer
     volumes:
