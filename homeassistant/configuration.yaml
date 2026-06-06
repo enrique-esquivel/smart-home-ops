@@ -1,0 +1,11 @@
+# Carga las integraciones por defecto (¡No borrar!)
+default_config:
+
+# Llama al archivo de automatizaciones
+automation: !include automations.yaml
+
+# Configuración de red para el contenedor
+http:
+  use_x_forwarded_for: true
+  trusted_proxies:
+    - 127.0.0.1

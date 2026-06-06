@@ -1,0 +1,41 @@
+mqtt:
+  # Al estar en la misma red de Docker, Frigate puede llamar a Mosquitto por su nombre
+  host: mosquitto 
+  user: "{MQTT_USER}"
+  password: "{MQTT_PASSWORD}"
+
+detectors:
+  tensorrt:
+    type: tensorrt
+    device: 0 # Apunta directamente a la GPU de la Jetson Nano
+
+model:
+  path: /config/model.trt # Frigate compilará el modelo TensorRT automáticamente en el primer arranque
+  width: 320
+  height: 320
+
+cameras:
+  camara_principal: # Usa nombres descriptivos, pero siempre sin espacios ni caracteres especiales
+    ffmpeg:
+      inputs:
+        # Flujo Secundario (Baja resolución): Optimizado para que la IA trabaje rapidísimo y sin saturar la RAM
+        - path: rtsp://{DAHUA_USER}:{DAHUA_PASSWORD}@{DAHUA_IP}:554/cam/realmonitor?channel=1&subtype=1
+          roles:
+            - detect
+        # Flujo Principal (Alta resolución): Exclusivo para grabar clips limpios cuando se detecta a alguien
+        - path: rtsp://{DAHUA_USER}:{DAHUA_PASSWORD}@{DAHUA_IP}:554/cam/realmonitor?channel=1&subtype=0
+          roles:
+            - record
+    detect:
+      # Ajusta esto a la resolución real de tu flujo secundario (usualmente 640x480 o 1280x720 en Dahua)
+      width: 320 
+      height: 320
+      fps: 5 # 5 FPS es el punto dulce perfecto para la Jetson Nano; no satures la CPU buscando 30 FPS
+    record:
+      enabled: true
+      retain:
+        days: 3
+        mode: motion
+    snapshots:
+      enabled: true
+      bounding_box: true

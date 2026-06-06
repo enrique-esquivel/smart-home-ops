@@ -1,0 +1,26 @@
+# Ignorar secretos y variables de entorno
+.env
+secrets.yaml
+*_password.txt
+
+# Ignorar las bases de datos de estado (Home Assistant y Frigate)
+*.db
+*.db-shm
+*.db-wal
+*.log
+
+# Ignorar caché y archivos temporales de Home Assistant
+.storage/
+.cloud/
+OZW_Log.txt
+*.log.*
+backups/
+
+# Ignorar la media de Frigate (¡Crucial para no saturar Git!)
+frigate/media/
+frigate/clips/
+frigate/recordings/
+
+# Archivos del sistema operativo (Mac/Linux)
+.DS_Store
+Thumbs.db
