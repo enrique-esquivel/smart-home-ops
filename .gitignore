@@ -24,3 +24,4 @@ frigate/recordings/
 # Archivos del sistema operativo (Mac/Linux)
 .DS_Store
 Thumbs.db
+mosquitto/config/pwfile
