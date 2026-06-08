@@ -2,7 +2,7 @@ version: "3.9"
 services:
   homeassistant:
     container_name: homeassistant
-    image: "ghcr.io/home-assistant/home-assistant:stable"
+    image: "ghcr.io/home-assistant/home-assistant:2025.12.0"
     volumes:
       - ./homeassistant:/config
       - /etc/localtime:/etc/localtime:ro
@@ -25,25 +25,26 @@ services:
     container_name: frigate
     privileged: true
     restart: unless-stopped
-    image: ghcr.io/blakeblackshear/frigate:0.12.1-tensorrt
+    image: madsciencetist/frigate-jetson:jetpack4.6.1
     runtime: nvidia # GPU Maxwell
     shm_size: "128mb" # Video buffer
     volumes:
       - /etc/localtime:/etc/localtime:ro
-      - ./frigate/config.yml:/config/config.yml
+      - ./frigate:/config
       - ./frigate/media:/media/frigate
       - type: tmpfs # Use memory instead of SSD
         target: /tmp/cache
         tmpfs:
           size: 512000000
     ports:
-      - "8971:8971"
+      - "5000:5000"
       - "8554:8554" # RTSP
       - "8555:8555/tcp" # WebRTC
       - "8555:8555/udp"
     environment:
       FRIGATE_RTSP_PASSWORD: "${FRIGATE_RTSP_PASSWORD}"
-      MQTT_PASSWORD: "${MQTT_PASSWORD}"
-      DAHUA_USER: "${DAHUA_USER}"
-      DAHUA_PASSWORD: "${DAHUA_PASSWORD}"
-      DAHUA_IP: "${DAHUA_IP}"
+      FRIGATE_DAHUA_USER: "${DAHUA_USER}"
+      FRIGATE_DAHUA_PASSWORD: "${DAHUA_PASSWORD}"
+      FRIGATE_DAHUA_IP: "${DAHUA_IP}"
+      FRIGATE_MQTT_USER: "${MQTT_USER}"
+      FRIGATE_MQTT_PASSWORD: "${MQTT_PASSWORD}"

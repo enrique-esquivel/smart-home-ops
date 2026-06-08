@@ -15,11 +15,18 @@ secrets.yaml
 OZW_Log.txt
 *.log.*
 backups/
+homeassistant/.HA_VERSION
+homeassistant/.ha_run.lock
+homeassistant/blueprints/
+homeassistant/home-assistant.log
+homeassistant/home-assistant_v2.db
 
 # Ignorar la media de Frigate (¡Crucial para no saturar Git!)
 frigate/media/
 frigate/clips/
 frigate/recordings/
+frigate/model_cache/
+frigate/.vacuum
 
 # Archivos del sistema operativo (Mac/Linux)
 .DS_Store
